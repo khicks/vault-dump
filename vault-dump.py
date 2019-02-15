@@ -20,7 +20,7 @@ def get_token():
     token_file = Path('/'.join([str(Path.home()), '.vault-token']))
     if token_file.is_file():
         with open(token_file) as f:
-            return f.read()
+            return f.read().strip()
 
     raise Exception("There is no Vault token. Please set a token value in env var 'VAULT_TOKEN', "
                     "the '~/.vault-token' file, or the '-t' arg.")
