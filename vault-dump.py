@@ -46,7 +46,7 @@ def parse_opts():
             token = arg
 
     if address is None:
-        address = os.environ.get('VAULT_ADDR', 'http://127.0.0.1')
+        address = os.environ.get('VAULT_ADDR', 'http://127.0.0.1:8200')
 
     if token is None:
         token = get_token()
