@@ -28,6 +28,7 @@ There is no default value for the Vault token. It must be set, or the script wil
 
 You can run the script like so:
 
+    $ chmod +x vault-dump.py
     $ ./vault-dump.py [-a ADDRESS] [-t TOKEN]
     
 The contents of your Vault server will be written to `~/vault-dump/<time>/`.
