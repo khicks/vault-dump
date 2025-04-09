@@ -84,14 +84,21 @@ def list_kv2_secrets(options, mount, path=''):
     list_path = mount + 'metadata/' + path
     print(mount + path)
 
-    secrets = vault_request(options, 'LIST', list_path)
+    try:
+        secrets = vault_request(options, 'LIST', list_path)
+        # Check if 'data' and 'keys' exist in the response
+        if 'data' not in secrets or 'keys' not in secrets['data']:
+            print(f"No data found at path: {list_path}")
+            return
 
-    for element in secrets['data']['keys']:
-        if element[-1] == '/':
-            os.makedirs(options['outdir']+mount+path+element)
-            list_kv2_secrets(options, mount, path+element)
-        else:
-            fetch_kv2_secret(options, mount, path+element)
+        for element in secrets['data']['keys']:
+            if element[-1] == '/':
+                os.makedirs(options['outdir'] + mount + path + element, exist_ok=True)
+                list_kv2_secrets(options, mount, path + element)
+            else:
+                fetch_kv2_secret(options, mount, path + element)
+    except Exception as e:
+        print(f"Error accessing path {list_path}: {e}")
 
 
 def main():
